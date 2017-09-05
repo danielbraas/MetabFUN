@@ -7,7 +7,7 @@
 #' @return A pdf file with a scree plot, a pair plot showing the first five PCs as well as a PCA plot with PCs a and b as specified in the function call and the corresponding top 30 loadings as bar plot.
 #' @export
 
-make_PCA2 <- function(matrix, a, b, cutoff = 0){
+make_PCA2 <- function(matrix, a=1, b=2, cutoff = 0.5){
 
   if (exists('Title')==F) stop('Title not specified')
  
@@ -42,6 +42,12 @@ make_PCA2 <- function(matrix, a, b, cutoff = 0){
 
   PC.title=paste(Title,'-PCA Plots2-', ext, '.pdf', sep='')
   pdf(file = PC.title, width=16, height=10)
+
+  plot(var_PCs[1:min(10, length(pca$sdev))], type='b', pch=20, col='blue', ylab='Variance explained (%)', xlab='Principal Component', main='Screeplot')
+  print(lattice::splom(data=PC, ~PC[,1:5],
+                       groups = PC$Condition,
+                       par.settings=list(superpose.symbol=list(col=colors, pch=19)),
+                       auto.key=list(columns=4), pch=19))
   
   plot <- ggplot(PC, aes(PC[,a], PC[,b], fill=Condition, label=Sample.Name))+
     geom_text(color='black', fontface='bold', size=4, vjust=-0.2)+
