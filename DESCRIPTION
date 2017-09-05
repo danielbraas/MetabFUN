@@ -1,0 +1,23 @@
+Package: MetabFUN
+Type: Package
+Title: This is a collection of functions that I use for metabolomics data
+    analysis
+Version: 0.1.0
+Author: Daniel Braas
+Maintainer: Daniel Braas <danielbraas@gmail.com>
+Description: The functions and objects in this package are used to create a
+    series of bar graphs, heatmaps and dotplots that I use to analyze metabolomics
+    data that was created on a Q Exactive mass spectrometer and was further analyzed
+    and exported with TraceFinder.
+License: MIT
+Depends:
+    R (>= 3.2),
+    tidyverse,
+    KEGGREST
+Imports:
+    tidyverse,
+    pheatmap,
+    plyr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 5.0.1
