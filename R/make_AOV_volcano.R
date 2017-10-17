@@ -9,8 +9,17 @@
 
 make_AOV_volcano <- function(DF, Ctrl, sig_val=1.5, p_val=0.05){
   if (exists('Title')==F) stop('Title not specified')
-
-
+  
+  if (sum(grepl('Exp', names(DF))) > 0) {
+    ext = 'Relative Amounts'
+  } else if (sum(grepl('MID', names(DF))) > 0) {
+    ext = 'MIDs'
+  } else if (sum(grepl('FC', names(DF))) > 0) {
+    ext = 'Fractional Contribution'
+  } else if (sum(grepl('Labeled', names(DF))) > 0) {
+    ext = 'Percent Labeled'
+  }
+  
   DF <- DF %>%
     arrange(Name, Condition) %>%
     group_by(Name) %>%
@@ -18,8 +27,8 @@ make_AOV_volcano <- function(DF, Ctrl, sig_val=1.5, p_val=0.05){
     ungroup() %>%
     select(Name, KEGG.ID, Condition, Av, Ratio, ANOVA)
 
-  write.csv(DF, paste0(Title, '-Volcano Plot using ANOVA normalized to ', levels(DF$Condition)[Ctrl],'.csv'), row.names=F)
-  pdf(paste0(Title, '-Volcano Plot using ANOVA normalized to ', levels(DF$Condition)[Ctrl],'.pdf'), width=14, height=10)
+  write.csv(DF, paste0(Title, '-Volcano Plot using ANOVA data from ',ext, ' normalized to ', levels(DF$Condition)[Ctrl],'.csv'), row.names=F)
+  pdf(paste0(Title, '-Volcano Plot using ANOVA data from ',ext, ' normalized to ', levels(DF$Condition)[Ctrl],'.pdf'), width=14, height=10)
   plot <- ggplot(DF, aes(log2(Ratio), -log(ANOVA, 10), fill=Condition, label=Name))+
     theme_bw()+
     theme(text=element_text(face='bold'))+

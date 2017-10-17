@@ -8,6 +8,7 @@ make_RelAmounts <- function(DF){
   if (exists('Title')==F) stop('Title not specified')
   data4 <- DF %>%
     select(Name, Condition, Iso, Exp, Value) %>%
+    mutate(Exp = factor(Exp, levels = unique(Exp))) %>% 
     group_by(Name, Condition, Exp) %>%
     mutate(Amount=sum(Value, na.rm=T)) %>%
     ungroup() %>% 

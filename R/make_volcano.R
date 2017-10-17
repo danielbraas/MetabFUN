@@ -87,7 +87,7 @@ make_volcano <- function(data, a, b){
       panel.grid.major=element_blank()) +
     annotate("rect", xmin = -log(log.val, 2), xmax = log(log.val, 2), alpha = .2,
              ymin = 0, ymax = max(-log(volc_data$p.val, 10))) +
-    scale_color_manual('Sig', values = colors[1:2]) +
-    geom_text(vjust=-0.5)
+    scale_color_manual('Sig', values = c('grey80',colors[a])) +
+    geom_text(vjust=-0.5, color='black')
   ggsave(gsub('.csv','.pdf', volc_Title), height=10, width=14)
 }
