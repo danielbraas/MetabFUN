@@ -16,14 +16,22 @@ make_RelAmounts <- function(DF){
     select(Name, Condition, Exp, Amount) %>%
     spread(Exp, Amount)
 
-  ATP_ADP=cbind(Name="ADP/ATP",data4[1:length(levels(data4$Condition)),2], data4[data4$Name=="ADP",3:length(data4)]/data4[data4$Name=="ATP",3:length(data4)])
-  if (exists('ATP_ADP')==T) data4 <- rbind(data4, ATP_ADP)
-  ATP_AMP=cbind(Name="AMP/ATP",data4[1:length(levels(data4$Condition)),2], data4[data4$Name=="AMP",3:length(data4)]/data4[data4$Name=="ATP",3:length(data4)])
-  if (exists('ATP_AMP')==T) data4 <- rbind(data4, ATP_AMP)
-  GSH_GSSG=cbind(Name="GSH/GSSG",data4[1:length(levels(data4$Condition)),2], data4[data4$Name=="GSH",3:length(data4)]/data4[data4$Name=="GSSG",3:length(data4)])
-  if (exists('GSH_GSSG')==T) data4 <- rbind(data4, GSH_GSSG)
-  Creatine_PCreatine=cbind(Name="Creatine/P-Creatine",data4[1:length(levels(data4$Condition)),2], data4[data4$Name=="Creatine",3:length(data4)]/data4[data4$Name=="P-Creatine",3:length(data4)])
-  if (exists('Creatine_PCreatine')==T) data4 <- rbind(data4, Creatine_PCreatine)
+  ATP_ADP=try(cbind(Name="ADP/ATP",data4[1:length(levels(data4$Condition)),2], 
+                    data4[data4$Name=="ADP",3:length(data4)]/data4[data4$Name=="ATP",3:length(data4)]), 
+              silent=T)
+  if (exists('ATP_ADP')==T & class(ATP_ADP) != 'try-error') data4 <- rbind(data4, ATP_ADP)
+  ATP_AMP=try(cbind(Name="AMP/ATP",data4[1:length(levels(data4$Condition)),2], 
+                    data4[data4$Name=="AMP",3:length(data4)]/data4[data4$Name=="ATP",3:length(data4)]),
+              silent = T)
+  if (exists('ATP_AMP')==T & class(ATP_AMP) != 'try-error') data4 <- rbind(data4, ATP_AMP)
+  GSH_GSSG=try(cbind(Name="GSH/GSSG",data4[1:length(levels(data4$Condition)),2], 
+                     data4[data4$Name=="GSH",3:length(data4)]/data4[data4$Name=="GSSG",3:length(data4)]),
+               silent = T)
+  if (exists('GSH_GSSG')==T & class(GSH_GSSG) != 'try-error') data4 <- rbind(data4, GSH_GSSG)
+  Creatine_PCreatine=try(cbind(Name="Creatine/P-Creatine",data4[1:length(levels(data4$Condition)),2], 
+                               data4[data4$Name=="Creatine",3:length(data4)]/data4[data4$Name=="P-Creatine",3:length(data4)]),
+                         silent = T)
+  if (exists('Creatine_PCreatine')==T & class(Creatine_PCreatine) != 'try-error') data4 <- rbind(data4, Creatine_PCreatine)
 
   data4 <- data4 %>%
     gather(Exp, Amount, -Name, -Condition)
@@ -43,7 +51,6 @@ make_RelAmounts <- function(DF){
     ungroup() %>% 
     left_join(., Abbrev, by=c('Name'='Abb')))
     
-
   data8=split(data4, data4[,1])
   ANOVA=suppressWarnings(sapply(data8, function(x) anova(aov(x$Amount~x$Condition))$Pr[1]))
   ANOVA=rep(ANOVA,1,each=length(levels(data4$Condition)))
