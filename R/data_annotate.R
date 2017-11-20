@@ -22,5 +22,11 @@ data_annotate <- function(MZ, ppm=10, adduct, Charge=1, db=''){
   }
   dat <- filter(dat, charge %in% Charge)
   dat$Dppm = round((MZ - dat$mz) / dat$mz *1e6 ,3)
+  if (nrow(dat) == 0) {
+    for (i in 1:length(dat)){dat[1,i] <- NA}
+  }
+  dat$medMz = MZ
+  dat <- select(dat, medMz, mz, ID, Name, Formula, MonoisotopicMass, Adduct, adductMass.x,
+                num_molecules, charge, Mode, Type, Dppm)
   return(dat)
 }
