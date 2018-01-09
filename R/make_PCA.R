@@ -9,7 +9,7 @@
 make_PCA <- function(matrix, a, b){
 
   if (exists('Title')==F) stop('Title not specified')
- 
+
   if (gsub('(.)*_|[0-9]','',colnames(matrix))[1]=='Exp') {
     ext = 'Relative Amounts'
   } else if (gsub('(.)*_|[0-9]','',colnames(matrix))[1]=='MID') {
@@ -31,6 +31,7 @@ make_PCA <- function(matrix, a, b){
   loadings <- data.frame(pca$rotation)
   loadings$Name <- rownames(loadings)
   loadings <- select(loadings, Name, everything())
+  write.csv(loadings, file=paste0(Title,'-Loadings-',ext,'.csv'), row.names=T)
   scores=pca$x
   write.csv(scores, file=paste0(Title,'-Scores-',ext,'.csv'), row.names=T)
 

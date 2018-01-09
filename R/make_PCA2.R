@@ -10,7 +10,7 @@
 make_PCA2 <- function(matrix, a=1, b=2, cutoff = 0.5){
 
   if (exists('Title')==F) stop('Title not specified')
- 
+
   if (gsub('(.)*_|[0-9]','',colnames(matrix))[1]=='Exp') {
     ext = 'Relative Amounts'
   } else if (gsub('(.)*_|[0-9]','',colnames(matrix))[1]=='MID') {
@@ -23,12 +23,12 @@ make_PCA2 <- function(matrix, a=1, b=2, cutoff = 0.5){
 
   pca <- prcomp(t(matrix), center=T, scale=T)
   var_PCs=round(summary(pca)$imp[2,]*100,1)
-  CCP <- cor(scale(t(matrix), center=T), pca$x, use='pairwise') %>% 
-    data.frame() %>% 
+  CCP <- cor(scale(t(matrix), center=T), pca$x, use='pairwise') %>%
+    data.frame() %>%
     mutate(Metabolite = rownames(.))
-  
+
   CCP$Corr <- sqrt((CCP[,a])^2 + (CCP[,b])^2)
-    
+
   PC <- pca$x %>%
     as.data.frame() %>%
     mutate(ROWNAMES = rownames(.),
@@ -37,6 +37,7 @@ make_PCA2 <- function(matrix, a=1, b=2, cutoff = 0.5){
   loadings <- data.frame(pca$rotation)
   loadings$Name <- rownames(loadings)
   loadings <- select(loadings, Name, everything())
+  write.csv(loadings, file=paste0(Title,'-Loadings-',ext,'.csv'), row.names=T)
   scores=pca$x
   write.csv(scores, file=paste0(Title,'-Scores-',ext,'.csv'), row.names=T)
 
@@ -48,7 +49,7 @@ make_PCA2 <- function(matrix, a=1, b=2, cutoff = 0.5){
                        groups = PC$Condition,
                        par.settings=list(superpose.symbol=list(col=colors, pch=19)),
                        auto.key=list(columns=4), pch=19))
-  
+
   plot <- ggplot(PC, aes(PC[,a], PC[,b], fill=Condition, label=Sample.Name))+
     geom_text(color='black', fontface='bold', size=4, vjust=-0.2)+
     geom_point(size=5, shape=21, color='black')+
@@ -58,11 +59,11 @@ make_PCA2 <- function(matrix, a=1, b=2, cutoff = 0.5){
           text = element_text(face='bold'))+
     scale_fill_manual('Condition', values=colors)
 
-  CCP_plot <- filter(CCP, Corr >= cutoff) %>% 
+  CCP_plot <- filter(CCP, Corr >= cutoff) %>%
     ggplot(., aes(.[,a], .[,b], label=Metabolite))+
     geom_point(size=2, color='grey90')+
     geom_text(vjust=-1, color='navy', size=3)+
-    labs(list(x=paste('PC',a, ' (',var_PCs[a],'%)',sep=''), 
+    labs(list(x=paste('PC',a, ' (',var_PCs[a],'%)',sep=''),
               y=paste('PC',b, ' (',var_PCs[b],'%)',sep=''),
               title = 'Correlation circle plot'))+
     theme_bw()+
@@ -70,7 +71,7 @@ make_PCA2 <- function(matrix, a=1, b=2, cutoff = 0.5){
           text = element_text(face='bold'))+
     xlim(-1,1)+
     ylim(-1,1)
-  
+
   gridExtra::grid.arrange(plot, CCP_plot, nrow=1)
   dev.off()
 
