@@ -7,9 +7,9 @@
 make_FC <- function(DF){
   if (exists('Title')==F) stop('Title not specified')
   FC <- suppressWarnings(DF %>%
-    inner_join(., Abbrev, by=c('Name'='Abb', 'KEGG.ID'='KEGG.ID')) %>%
+#    inner_join(., Abbrev, by=c('Name'='Abb', 'KEGG.ID'='KEGG.ID')) %>%
     select(Name, KEGG.ID, Condition, Iso, Nr.C, starts_with('MID')) %>%
-    gather(Exp, MID, -Name, -KEGG.ID, -Condition, -Iso, -Nr.C) %>%
+    gather(Exp, MID, -Name, -KEGG.ID, -Condition, -Iso,-Nr.C) %>%
     mutate(i=as.numeric(gsub('M','',.$Iso)),
            iSi=i*MID) %>%
     group_by(Name, Condition, Exp) %>%

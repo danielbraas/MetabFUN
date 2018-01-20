@@ -200,10 +200,10 @@ make_MID <- function(DF){
 
 #change 0 values to NA
   percent_label_corrected[percent_label_corrected==0]=NA
-  label=percent_label_corrected[,-5]
+  label=percent_label_corrected
 
   MID <- label %>%
-    gather(Exp, Value, -Name, -Condition, -Iso, -KEGG.ID) %>%
+    gather(Exp, Value, -Name, -Condition, -Iso, -KEGG.ID, -Nr.C) %>%
     group_by(Name, Condition, Exp) %>%
     arrange(Name, Condition, Exp) %>%
     mutate(Sum = sum(Value, na.rm=T),
@@ -215,7 +215,7 @@ make_MID <- function(DF){
            CV=sd(Fraction, na.rm=T)/mean(Fraction, na.rm=T),
            Av = Norm_Av) %>%
     ungroup() %>%
-    select(Name, Condition, Iso, Exp, Fraction, Norm_Av, Norm_Std, CV, Av)
+    select(Name, Condition, Iso, Exp, Fraction, Norm_Av, Norm_Std, CV, Av, Nr.C)
   MID$Exp <- gsub('Exp','MID', MID$Exp)
 
 #This part needs to be inserted at some point to account for NAs
@@ -231,7 +231,7 @@ make_MID <- function(DF){
 
   data3 <- MID %>%
     spread(Exp, Fraction) %>%
-    inner_join(label, ., by = c("Name", "Condition", "Iso")) %>%
+    inner_join(label, ., by = c("Name", "Condition", "Iso","Nr.C")) %>%
     arrange(Name, Iso)
 
   #add indicator of significance

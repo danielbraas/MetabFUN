@@ -7,34 +7,34 @@
 make_RelAmounts <- function(DF){
   if (exists('Title')==F) stop('Title not specified')
   data4 <- DF %>%
-    select(Name, Condition, Iso, Exp, Value) %>%
-    mutate(Exp = factor(Exp, levels = unique(Exp))) %>% 
+    select(Name, Condition, Iso, KEGG.ID, Exp, Value) %>%
+    mutate(Exp = factor(Exp, levels = unique(Exp))) %>%
     group_by(Name, Condition, Exp) %>%
     mutate(Amount=sum(Value, na.rm=T)) %>%
-    ungroup() %>% 
+    ungroup() %>%
     filter(Iso=='M0') %>%
-    select(Name, Condition, Exp, Amount) %>%
+    select(Name, Condition, KEGG.ID, Exp, Amount) %>%
     spread(Exp, Amount)
 
-  ATP_ADP=try(cbind(Name="ADP/ATP",data4[1:length(levels(data4$Condition)),2], 
-                    data4[data4$Name=="ADP",3:length(data4)]/data4[data4$Name=="ATP",3:length(data4)]), 
+  ATP_ADP=try(cbind(Name="ADP/ATP",data4[1:length(levels(data4$Condition)),2], 'KEGG.ID'=NA,
+                    data4[data4$Name=="ADP",4:length(data4)]/data4[data4$Name=="ATP",4:length(data4)]),
               silent=T)
   if (exists('ATP_ADP')==T & class(ATP_ADP) != 'try-error') data4 <- rbind(data4, ATP_ADP)
-  ATP_AMP=try(cbind(Name="AMP/ATP",data4[1:length(levels(data4$Condition)),2], 
-                    data4[data4$Name=="AMP",3:length(data4)]/data4[data4$Name=="ATP",3:length(data4)]),
+  ATP_AMP=try(cbind(Name="AMP/ATP",data4[1:length(levels(data4$Condition)),2], 'KEGG.ID'=NA,
+                    data4[data4$Name=="AMP",4:length(data4)]/data4[data4$Name=="ATP",4:length(data4)]),
               silent = T)
   if (exists('ATP_AMP')==T & class(ATP_AMP) != 'try-error') data4 <- rbind(data4, ATP_AMP)
-  GSH_GSSG=try(cbind(Name="GSH/GSSG",data4[1:length(levels(data4$Condition)),2], 
-                     data4[data4$Name=="GSH",3:length(data4)]/data4[data4$Name=="GSSG",3:length(data4)]),
+  GSH_GSSG=try(cbind(Name="GSH/GSSG",data4[1:length(levels(data4$Condition)),2], 'KEGG.ID'=NA,
+                     data4[data4$Name=="GSH",4:length(data4)]/data4[data4$Name=="GSSG",4:length(data4)]),
                silent = T)
   if (exists('GSH_GSSG')==T & class(GSH_GSSG) != 'try-error') data4 <- rbind(data4, GSH_GSSG)
-  Creatine_PCreatine=try(cbind(Name="Creatine/P-Creatine",data4[1:length(levels(data4$Condition)),2], 
-                               data4[data4$Name=="Creatine",3:length(data4)]/data4[data4$Name=="P-Creatine",3:length(data4)]),
+  Creatine_PCreatine=try(cbind(Name="Creatine/P-Creatine",data4[1:length(levels(data4$Condition)),2], 'KEGG.ID'=NA,
+                               data4[data4$Name=="Creatine",4:length(data4)]/data4[data4$Name=="P-Creatine",4:length(data4)]),
                          silent = T)
   if (exists('Creatine_PCreatine')==T & class(Creatine_PCreatine) != 'try-error') data4 <- rbind(data4, Creatine_PCreatine)
 
   data4 <- data4 %>%
-    gather(Exp, Amount, -Name, -Condition)
+    gather(Exp, Amount, -Name, -Condition,-KEGG.ID)
   data4$Amount <- suppressMessages(mapvalues(data4$Amount, c('Inf','NaN'), c(NA,NA)))
   data4$Amount[data4$Amount==0] <- NA
   test1 <- split(data4, data4[c('Name','Condition')])
@@ -48,9 +48,8 @@ make_RelAmounts <- function(DF){
     mutate(Av=mean(Amount, na.rm=T),
            Std=sd(Amount, na.rm=T),
            CV=sd(Amount, na.rm=T)/mean(Amount, na.rm=T)) %>%
-    ungroup() %>% 
-    left_join(., Abbrev, by=c('Name'='Abb')))
-    
+    ungroup())
+
   data8=split(data4, data4[,1])
   ANOVA=suppressWarnings(sapply(data8, function(x) anova(aov(x$Amount~x$Condition))$Pr[1]))
   ANOVA=rep(ANOVA,1,each=length(levels(data4$Condition)))
