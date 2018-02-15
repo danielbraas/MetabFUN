@@ -1,11 +1,13 @@
 #' This function produces a volcano plot using data with two different conditions to be compared.
 #' @author Daniel Braas
 #' @param data input data frame
-#' @param a first condition to evaluate
-#' @param b second condition to evaluate
+#' @param a Numeric value specifying the first condition to evaluate.
+#' @param b Numeric value specifying the second condition to evaluate.
 #' @return a data frame of all potential isomers of that particular chemical formula
 #' @export
+
 make_volcano <- function(data, a, b){
+
   conditions <- levels(data$Condition)[c(a, b)]
   Name <- ''
   if (sum(grepl('Exp', names(data))) > 0) {
@@ -20,22 +22,22 @@ make_volcano <- function(data, a, b){
   volc_data <- data %>%
     select(Name, Condition, grep('Exp|MID|FC', names(data))) %>%
     filter(Condition %in% conditions) %>%
-    mutate(Condition=factor(Condition, levels=conditions)) %>% 
+    mutate(Condition=factor(Condition, levels=conditions)) %>%
     gather(Exp, Value, -Name, -Condition) %>%
     group_by(Name) %>%
     mutate(Sum=sum(Value, na.rm=T)) %>%
     filter(Sum != 0) %>%
     mutate(Sum = NULL) %>%
     ungroup()
-    
+
   volc_data$Value[volc_data$Value==0] <- NA
   volc_data <- volc_data %>%
     group_by(Name, Condition) %>%
-    arrange(Name, Condition) %>% 
-    mutate(Av = mean(Value, na.rm=T)) %>% 
+    arrange(Name, Condition) %>%
+    mutate(Av = mean(Value, na.rm=T)) %>%
     spread(Exp, Value) %>%
     group_by(Name) %>%
-    mutate(Ratio = Av[1]/Av[2]) %>% 
+    mutate(Ratio = Av[1]/Av[2]) %>%
     ungroup() %>%
     gather(Exp, Value, -Name, -Condition, -Av, -Ratio)
 
@@ -45,10 +47,10 @@ make_volcano <- function(data, a, b){
   new.Value <- as.vector(sapply(test1, function(x) NA_function(x$Value)))
   volc_data <- volc_data %>%
     arrange(Condition, Name) %>%
-    mutate(Value=new.Value) 
+    mutate(Value=new.Value)
   data8=split(volc_data, volc_data[,1])
   ANOVA=suppressWarnings(sapply(data8, function(x) anova(aov(x$Value~x$Condition))$Pr[1]))
-  
+
   volc_data <- volc_data %>%
     select(Name, Ratio) %>%
     distinct() %>%
@@ -70,7 +72,7 @@ make_volcano <- function(data, a, b){
 
   write.csv(volc_data, volc_Title, row.names=F)
   xlabs <- paste0('Ratio: ', Name,conditions[1],' / ',conditions[2], ' (log2)')
-  
+
   ggplot(volc_data, aes(log2(Ratio), -log(p.val,10), color=Sig, label=Label)) +
     geom_point(size=2) +
     geom_hline(yintercept=-log(0.05,10), linetype=2) +
