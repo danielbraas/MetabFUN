@@ -7,13 +7,10 @@
 #' @export
 
 make_unlabeled <- function(DF, max.iso=50){
-  
+
   if (exists('Title')==F) stop('Title not specified')
-  DF$Iso <- factor(DF$Iso, levels=paste0('M', 0:max.iso))
-  DF <- DF %>% 
-    gather(Sample, Value,-Used_ID, -Iso) %>% 
-    arrange(Used_ID, Sample, Iso)
-  
+
+
   flat <- function(dat){
     for (i in 1:nrow(dat)){
       if (is.na(dat$Value[i])) {
@@ -22,17 +19,33 @@ make_unlabeled <- function(DF, max.iso=50){
       }
     }
   }
-  
-  DF <- DF %>% 
-    split(.[c('Used_ID','Sample')]) %>% 
-    map(~ flat(.)) %>% 
-    do.call(rbind,.)
-  
-  rownames(DF) <- NULL
-  
-  DF <- DF %>% 
-    spread(Sample, Value)
-  
+
+  DF$Iso <- factor(DF$Iso, levels=paste0('M', 0:max.iso))
+  DF$Value[DF$Value==0] <- NA
+
+  if (sum(grepl('Name', names(DF))) > 0) {
+    Order <- levels(DF$Condition)
+    DF <- rename(DF, Used_ID=Name) %>%
+      unite(Sample, Condition, Exp, sep='_') %>%
+      split(.[c('Used_ID','Sample')]) %>%
+      map(~ flat(.)) %>%
+      do.call(rbind,.) %>%
+      separate(Sample, c('Condition','Exp'), sep='_') %>%
+      mutate(Condition = factor(Condition, levels = Order)) %>%
+      rename(Name=Used_ID)
+    rownames(DF) <- NULL
+  }
+
+  else {
+    DF <- DF %>%
+      gather(Sample, Value,-Used_ID, -Iso) %>%
+      arrange(Used_ID, Sample, Iso) %>%
+      split(.[c('Used_ID','Sample')]) %>%
+      map(~ flat(.)) %>%
+      do.call(rbind,.) %>%
+      spread(Sample, Value)
+  }
+
   write.csv(DF, paste(Title, '-Uncorrected raw data.csv'), row.names = F)
   return(DF)
 }
