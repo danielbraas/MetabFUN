@@ -73,6 +73,7 @@ make_volcano <- function(data, a, b){
   write.csv(volc_data, volc_Title, row.names=F)
   xlabs <- paste0('Ratio: ', Name,conditions[1],' / ',conditions[2], ' (log2)')
 
+  pdf(gsub('.csv','.pdf', volc_Title), height=10, width=14)
   ggplot(volc_data, aes(log2(Ratio), -log(p.val,10), color=Sig, label=Label)) +
     geom_point(size=2) +
     geom_hline(yintercept=-log(0.05,10), linetype=2) +
@@ -91,5 +92,5 @@ make_volcano <- function(data, a, b){
              ymin = 0, ymax = max(-log(volc_data$p.val, 10))) +
     scale_color_manual('Sig', values = c('grey80',colors[a])) +
     geom_text(vjust=-0.5, color='black')
-  ggsave(gsub('.csv','.pdf', volc_Title), height=10, width=14)
+  dev.off()
 }
