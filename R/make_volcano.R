@@ -1,12 +1,13 @@
 #' This function produces a volcano plot using data with two different conditions to be compared.
 #' @author Daniel Braas
 #' @param data input data frame
-#' @param a first condition to evaluate
-#' @param b second condition to evaluate
+#' @param a Numeric value specifying the first condition to evaluate.
+#' @param b Numeric value specifying the second condition to evaluate.
 #' @return a data frame of all potential isomers of that particular chemical formula
 #' @export
 
 make_volcano <- function(data, a, b){
+
   conditions <- levels(data$Condition)[c(a, b)]
   Name <- ''
   if (sum(grepl('Exp', names(data))) > 0) {
