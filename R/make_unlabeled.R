@@ -12,10 +12,13 @@ make_unlabeled <- function(DF, max.iso=50){
 
 
   flat <- function(dat){
-    for (i in 1:nrow(dat)){
-      if (is.na(dat$Value[i])) {
-        dat$Value[i:nrow(dat)] <- NA
-        return(dat)
+    if (nrow(dat)==1) return(dat)
+    else {
+      for (i in 1:nrow(dat)){
+        if (is.na(dat$Value[i])) {
+          dat$Value[i:nrow(dat)] <- NA
+          return(dat)
+        }
       }
     }
   }
