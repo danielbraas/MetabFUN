@@ -80,12 +80,12 @@ make_PCA2 <- function(matrix, a=1, b=2, cutoff = 0.5){
                              select(KEGG.ID, paste0('PC',a)))
   names(CCP1)[2] <- 'Norm_Av'
   CCP1$Norm_Av[is.na(CCP1$Norm_Av)] <- 0
-  write.csv(CCP1, paste0('CCP-PC',a'-', ext,'.csv'), row.names=F)
+  write.csv(CCP1, paste0('CCP-PC', a, '-', ext,'.csv'), row.names=F)
 
   CCP2 <- suppressWarnings(CCP %>%
                              right_join(., Abbrev, by=c('Metabolite'='Abb')) %>%
                              select(KEGG.ID, paste0('PC',b)))
   names(CCP2)[2] <- 'Norm_Av'
   CCP2$Norm_Av[is.na(CCP2$Norm_Av)] <- 0
-  write.csv(CCP2, paste0('CCP-PC',b'-', ext,'.csv'), row.names=F)
+  write.csv(CCP2, paste0('CCP-PC', b, '-', ext,'.csv'), row.names=F)
 }
