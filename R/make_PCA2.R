@@ -41,7 +41,7 @@ make_PCA2 <- function(matrix, a=1, b=2, cutoff = 0.5){
   scores=pca$x
   write.csv(scores, file=paste0(Title,'-Scores-',ext,'.csv'), row.names=T)
 
-  PC.title=paste(Title,'PC',a' vs. PC',b,'-PCA Plots2-', ext, '.pdf', sep='')
+  PC.title=paste(Title,'PC',a, ' vs. PC', b, '-PCA Plots2-', ext, '.pdf', sep='')
   pdf(file = PC.title, width=16, height=10)
 
   plot(var_PCs[1:min(10, length(pca$sdev))], type='b', pch=20, col='blue', ylab='Variance explained (%)', xlab='Principal Component', main='Screeplot')
