@@ -1,9 +1,9 @@
-#' Create a tab-delimited file with MDVs and a csv file with FC or %labeled for INCA
+#' Create a tab-delimited file with MDVs and a csv file with FC or \%labeled for INCA
 #' @details
 #' This function takes in isotopologue data and returns a .txt file with MDVs for
 #' a select set of metabolites stored in the QE variable.
 #' @author Daniel Braas
-#' @param iso_data The input data, which contains the isotopologue data
+#' @param iso_data The input which contains the isotopologue data
 #' @param QE A set of metabolites to be returned
 #' @param label_data Either percent labeled or fractional contribution
 #' @export
