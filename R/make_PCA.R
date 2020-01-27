@@ -1,6 +1,6 @@
 #' This function takes in a data matrix and produces a PCA plot including the top30 loadings.
 #' @author Daniel Braas
-#' @param data The data matrix to be used.
+#' @param matrix The data matrix to be used.
 #' @param a The PC used for the x-axis.
 #' @param b The PC used for the y-axis.
 #' @return A pdf file with a scree plot, a pair plot showing the first five PCs as well as a PCA plot with PCs a and b as specified in the function call and the corresponding top 30 loadings as bar plot.

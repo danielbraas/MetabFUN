@@ -2,25 +2,24 @@
 % Please edit documentation in R/make_INCA.R
 \name{make_INCA}
 \alias{make_INCA}
-\title{Create a tab-delimited file with MDVs and a csv file with FC or %labeled for INCA}
+\title{Create a tab-delimited file with MDVs and a csv file with FC or \%labeled for INCA}
 \usage{
 make_INCA(iso_data, QE, label_data)
 }
 \arguments{
-\item{iso_data}{The input data, which contains the isotopologue data}
+\item{iso_data}{The input which contains the isotopologue data}
 
 \item{QE}{A set of metabolites to be returned}
 
 \item{label_data}{Either percent labeled or fractional contribution}
 }
-\description{
-Create a tab-delimited file with MDVs and a csv file with FC or %labeled for INCA
+\value{
+Two csv files with a) isotopologue information for INCA and b) a data frame
+to be used with Cytoscape
 }
-\details{
-This function takes in isotopologue data and returns a .txt file with MDVs for
-a select set of metabolites stored in the QE variable.
+\description{
+Create a tab-delimited file with MDVs and a csv file with FC or \%labeled for INCA
 }
 \author{
 Daniel Braas
 }
-

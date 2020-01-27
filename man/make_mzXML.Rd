@@ -21,4 +21,3 @@ the .raw files. The function will create directories based on the polarity param
 \author{
 Daniel Braas
 }
-

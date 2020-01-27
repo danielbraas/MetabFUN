@@ -1,6 +1,6 @@
 #' This function produces a data frame with fractional contribution data.
 #' @author Daniel Braas
-#' @param FC The input data. This should be a data frame that contains MID data generated with the 'make_MID' function.
+#' @param DF The input data. This should be a data frame that contains MID data generated with the 'make_MID' function.
 #' @return A data frame with fractional contribution data.
 #' @export
 

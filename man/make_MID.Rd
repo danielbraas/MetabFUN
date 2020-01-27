@@ -18,4 +18,3 @@ This function produces a data frame with mass isotopologue distribution (MID) da
 \author{
 Daniel Braas
 }
-

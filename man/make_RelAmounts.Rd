@@ -18,4 +18,3 @@ This function produces a data frame with relative metabolite amounts.
 \author{
 Daniel Braas
 }
-

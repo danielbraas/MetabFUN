@@ -8,7 +8,7 @@
 #' @return An annotated heatmap saved as a pdf file.
 #' @export
 
-make_pheatmap <- function(matrix, samples=samples, heat.color=normal){
+make_pheatmap <- function(matrix, samples = samples, heat.color = normal, Norv, Title){
   if (gsub('(.)*_|[0-9]','',colnames(matrix))[1]=='Exp') {
     ext = 'Relative Amounts'
   } else if (gsub('(.)*_|[0-9]','',colnames(matrix))[1]=='MID') {
@@ -19,19 +19,21 @@ make_pheatmap <- function(matrix, samples=samples, heat.color=normal){
     ext = 'Percent Labeled'
   }
 
-  if (exists('samples')==F) samples <- info
+  if (exists('samples')==F) samples <- info   # Important for heatmap annotation
   ann <- select(samples, Condition, Cell.Number) %>%
     as.data.frame()
   rownames(ann) <- colnames(matrix)
-  if (exists('Norv')==T) {
+
+  if (exists('Norv')==T) {    # Show normalization value in each sample if set
     ann$Norvaline <- Norv
   } else ann$Norvaline <- 1
 
-  ann_colors = list(
-    Condition=colors[1:length(unique(gsub('_(.)*','',colnames(matrix))))],
+  ann_colors = list(    # This names list defines the colors for sample groups
+    Condition = colors[1:length(unique(gsub('_(.)*','',colnames(matrix))))],
     Norvaline = c("white", "blue"),
     Cell.Number = c("white", "green")
     )
+
   names(ann_colors[['Condition']]) <- unique(gsub('_(.)*','',colnames(matrix)))
 
   matrix[is.na(matrix)] <- 0

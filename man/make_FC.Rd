@@ -7,7 +7,7 @@
 make_FC(DF)
 }
 \arguments{
-\item{FC}{The input data. This should be a data frame that contains MID data generated with the 'make_MID' function.}
+\item{DF}{The input data. This should be a data frame that contains MID data generated with the 'make_MID' function.}
 }
 \value{
 A data frame with fractional contribution data.
@@ -18,4 +18,3 @@ This function produces a data frame with fractional contribution data.
 \author{
 Daniel Braas
 }
-

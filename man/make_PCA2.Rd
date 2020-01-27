@@ -4,16 +4,16 @@
 \alias{make_PCA2}
 \title{This function takes in a data matrix and produces a PCA plot and a correlation circle plot.}
 \usage{
-make_PCA2(matrix, a, b, cutoff = 0)
+make_PCA2(matrix, a = 1, b = 2, cutoff = 0.5)
 }
 \arguments{
+\item{matrix}{The data matrix to be used.}
+
 \item{a}{The PC used for the x-axis.}
 
 \item{b}{The PC used for the y-axis.}
 
 \item{cutoff}{The cutoff for correlation.}
-
-\item{data}{The data matrix to be used.}
 }
 \value{
 A pdf file with a scree plot, a pair plot showing the first five PCs as well as a PCA plot with PCs a and b as specified in the function call and the corresponding top 30 loadings as bar plot.
@@ -24,4 +24,3 @@ This function takes in a data matrix and produces a PCA plot and a correlation c
 \author{
 Daniel Braas
 }
-

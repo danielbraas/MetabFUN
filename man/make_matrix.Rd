@@ -22,4 +22,3 @@ This function produces a matrix for hierarchical clustering or PCA
 \author{
 Daniel Braas
 }
-

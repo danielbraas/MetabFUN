@@ -5,8 +5,8 @@
 #' @param Title is the title for the plot
 #' @param x is the title for the x-axis
 #' @param y is the title for the y-axis
-#' @param axis.test.x tells ggplot whether or not to label x-axis ticks
-#' @param use fixed or free scales
+#' @param axis.text.x tells ggplot whether or not to label x-axis ticks
+#' @param scales fixed or free scales
 #' @return a data frame of all potential isomers of that particular chemical formula
 #' @export
 
@@ -138,7 +138,7 @@ bar <- function(metabolites, bar.type, repeats){
     axis.text.x=element_blank()
     bar_plot(a, met, Title, x, y, axis.text.x, scales='free')
   }
-  
+
   else if (sum(grepl('Labeled', names(bar.type))) >= 1){
     met <- subset(bar.type, Name %in% metabolites)
     stopifnot(length(unique(met$Name)) >= 1)

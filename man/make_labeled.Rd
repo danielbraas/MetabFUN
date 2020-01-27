@@ -18,4 +18,3 @@ This function produces a data frame with percent labeled data.
 \author{
 Daniel Braas
 }
-

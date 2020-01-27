@@ -24,4 +24,3 @@ This function takes in a data and produces a volcano plot relative to a specifie
 \author{
 Daniel Braas
 }
-

@@ -17,9 +17,9 @@ bar_plot(a, met, Title, x, y, axis.text.x, scales)
 
 \item{y}{is the title for the y-axis}
 
-\item{axis.test.x}{tells ggplot whether or not to label x-axis ticks}
+\item{axis.text.x}{tells ggplot whether or not to label x-axis ticks}
 
-\item{use}{fixed or free scales}
+\item{scales}{fixed or free scales}
 }
 \value{
 a data frame of all potential isomers of that particular chemical formula
@@ -30,4 +30,3 @@ This function produces a bar plot using data from function bar.
 \author{
 Daniel Braas
 }
-

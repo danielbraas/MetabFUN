@@ -26,4 +26,3 @@ This function is searching either the KEGG or HMDB databases for potential annot
 \author{
 Daniel Braas
 }
-

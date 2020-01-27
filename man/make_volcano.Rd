@@ -9,9 +9,9 @@ make_volcano(data, a, b)
 \arguments{
 \item{data}{input data frame}
 
-\item{a}{first condition to evaluate}
+\item{a}{Numeric value specifying the first condition to evaluate.}
 
-\item{b}{second condition to evaluate}
+\item{b}{Numeric value specifying the second condition to evaluate.}
 }
 \value{
 a data frame of all potential isomers of that particular chemical formula
@@ -22,4 +22,3 @@ This function produces a volcano plot using data with two different conditions t
 \author{
 Daniel Braas
 }
-

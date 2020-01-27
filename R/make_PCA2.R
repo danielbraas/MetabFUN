@@ -1,6 +1,6 @@
 #' This function takes in a data matrix and produces a PCA plot and a correlation circle plot.
 #' @author Daniel Braas
-#' @param data The data matrix to be used.
+#' @param matrix The data matrix to be used.
 #' @param a The PC used for the x-axis.
 #' @param b The PC used for the y-axis.
 #' @param cutoff The cutoff for correlation.

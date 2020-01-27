@@ -4,7 +4,7 @@
 \alias{make_pheatmap}
 \title{This function takes in a data matrix and produces an annotated heatmap using the pheatmap package.}
 \usage{
-make_pheatmap(matrix, samples = samples, heat.color = normal)
+make_pheatmap(matrix, samples = samples, heat.color = normal, Norv, Title)
 }
 \arguments{
 \item{matrix}{The data matrix to be used}
@@ -26,4 +26,3 @@ This function takes in a data matrix and produces an annotated heatmap using the
 \author{
 Daniel Braas
 }
-

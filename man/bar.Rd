@@ -22,4 +22,3 @@ This function produces a bar plot using data from function bar.
 \author{
 Daniel Braas
 }
-

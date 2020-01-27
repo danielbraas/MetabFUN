@@ -4,23 +4,25 @@
 \alias{make_INCA_normalized}
 \title{Creates a csv file with flux estimates relative to a control flux vector}
 \usage{
-make_INCA_normalized(flux_data, condition)
+make_INCA_normalized(flux_data, condition, label_data)
 }
 \arguments{
 \item{flux_data}{A file name for a data table with reaction IDs, Equation and flux estimates}
 
 \item{condition}{The condition to be normalized to}
 
-\item{label}{data Either percent labeled or fractional contribution}
+\item{label_data}{Either percent labeled or fractional contribution}
+}
+\value{
+Two data frames with flux information.
 }
 \description{
 Creates a csv file with flux estimates relative to a control flux vector
 }
 \details{
-This function takes in the output of INCA flux estimates and normalizes them relative 
+This function takes in the output of INCA flux estimates and normalizes them relative
 to a chosen condition.
 }
 \author{
 Daniel Braas
 }
-
