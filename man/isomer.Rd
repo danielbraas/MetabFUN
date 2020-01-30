@@ -8,7 +8,7 @@ compound library supplied in this package.}
 isomer(formula = "H2O")
 }
 \arguments{
-\item{name}{The value for the Type (e.g. H2O for Type Formula)}
+\item{formula}{The value for the Type (e.g. H2O for Type Formula)}
 }
 \value{
 a data frame of all potential isomers of that particular chemical formula
