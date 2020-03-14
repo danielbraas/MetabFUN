@@ -9,13 +9,14 @@ make_MID <- function(DF){
   percent_label <- DF %>%
     select(Name, KEGG.ID, Condition, Iso, Nr.C, Exp, Value) %>%
     spread(Exp, Value)
-#INPUT: Max carbons to calculate and #iterations (2 is min number)
-  na=.01109
-  MaxCarbonCalculate=50
-  MaxIter=5000
+# INPUT: Max carbons to calculate and #iterations (2 is min number)
+  na =.01109
+  MaxCarbonCalculate = 50
+  MaxIter = 5000
 
-#Make metabolite name column factors (was not before in test set)
-  percent_label[,1]=as.factor(percent_label[,1])
+# Make metabolite name column factors (was not before in test set)
+  #percent_label[,1] = as.factor(percent_label[,1])
+  percent_label$Name <- factor(percent_label$Name)
 
 #Duplicate data frame to input corrected values into
   percent_label_corrected=percent_label
