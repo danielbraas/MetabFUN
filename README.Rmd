@@ -1,9 +1,7 @@
----
-title: "README"
-author: "Daniel Braas"
+# MetabFUN
+author: Daniel Braas, PhD
 date: "January 7, 2017"
-output: html_document
----
+
 
 ## The scope of this package
 This package is developed to provide functions that are useful for metabolomics data analysis. This includes data manipulation, statistical calculations and graphical outputs.
